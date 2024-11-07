@@ -1,0 +1,56 @@
+/**
+ *  This setting is used by me to activate the super-strict compilation method.
+ *  Defaults are omitted from this file. Only non-default settings are changed here.
+ *  For reference, see more at https://aka.ms/tsconfig.json.
+ */
+{
+  "ts-node": {
+    "esm": true,
+    "files": true,
+    "transpileOnly": true,
+    "experimentalResolver": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["ESNext"],
+    "outDir": "dist",
+    "removeComments": true,
+    "isolatedModules": true,
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "strictPropertyInitialization": false,
+
+    /* Additional Checks */
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": false,
+
+    /* Module Resolution Options */
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    /* Advanced Options */
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Default */
+    "baseUrl": "./",
+
+    /* Custom Paths */
+    "paths": {
+      "@/*": ["./src/*"],
+      "@@/*": ["./*"]
+    }
+  },
+  "include": ["src", "extensions.d.ts", "eslint.config.mjs"],
+  "exclude": ["node_modules", "dist", "cdk.out", "__tests__", "__tests_setup__"]
+}

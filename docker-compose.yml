@@ -1,0 +1,26 @@
+services:
+  postgres:
+    container_name: auth-service-postgres
+    image: postgres:15.2-bullseye
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_DB: 'authentication'
+    ports:
+      - '5927:5432'
+    networks:
+      - infra
+
+  redis:
+    container_name: auth-service-redis
+    image: redis:latest
+    restart: always
+    command: redis-server --requirepass redis
+    ports:
+      - 6379:6379
+    networks:
+      - infra
+
+networks:
+  infra:

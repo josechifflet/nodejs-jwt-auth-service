@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+  binaryTargets   = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [uuidOssp(map: "uuid-ossp")]
+}
+
+enum Roles {
+  admin
+  user
+}
+
+model User {
+  userPK             Int          @id @default(autoincrement())
+  userID             String       @unique @default(uuid())
+  username           String       @unique
+  email              String       @unique
+  phoneNumber        String       @unique
+  password           String
+  totpSecret         String
+  fullName           String
+  confirmationCode   String?      @unique
+  forgotPasswordCode String?      @unique
+  isActive           Boolean      @default(true)
+  updatedAt          DateTime     @updatedAt
+  createdAt          DateTime     @default(now())
+  role               Roles        @default(user)
+  Attendance         Attendance[]
+  Session            Session?
+}
+
+model Attendance {
+  attendancePK   Int       @id @default(autoincrement())
+  attendanceID   String    @unique @default(uuid())
+  timeEnter      DateTime
+  ipAddressEnter String
+  deviceEnter    String
+  remarksEnter   String?
+  timeLeave      DateTime?
+  ipAddressLeave String?
+  deviceLeave    String?
+  remarksLeave   String?
+  userPK         Int
+  user           User      @relation(fields: [userPK], references: [userPK])
+}
+
+// 1 User : 1 Session
+model Session {
+  sessionPK  Int      @id @default(autoincrement())
+  sessionID  String   @unique @default(uuid())
+  userPK     Int      @unique
+  user       User     @relation(fields: [userPK], references: [userPK])
+  lastActive DateTime
+  signedIn   DateTime
+  device     String
+  ipAddress  String
+  userAgent  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
