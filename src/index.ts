@@ -3,12 +3,13 @@ import toobusy from 'toobusy-js';
 
 import config from '@/config';
 import bull from '@/infra/bull';
-import loadExpress from '@/infra/express';
 import prisma from '@/infra/prisma';
 import redis from '@/infra/redis';
 import runMigrations from '@/infra/run-migrations';
 import CacheService from '@/modules/cache/service';
 import Email from '@/modules/email';
+
+import app from './app';
 
 /**
  * Gracefully shuts down the application server.
@@ -78,7 +79,6 @@ async function startServer() {
   });
 
   // Prepare server.
-  const app = loadExpress();
   const server = app.listen(config.PORT, () => {
     console.log(`API ready on port ${config.PORT} on mode ${config.NODE_ENV}!`);
   });

@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import app from '@/app';
 import prisma from '@/infra/prisma';
 
 import {
@@ -12,7 +13,6 @@ import {
 } from '../__tests_setup__/endpoints';
 import flushDb from '../__tests_setup__/flushDb';
 import flushRedis from '../__tests_setup__/flushRedis';
-import loadExpress from '../infra/express';
 
 /**
  * Authentication flow endpoints tests.
@@ -34,7 +34,7 @@ describe('[Authentication]', () => {
     vi.clearAllMocks();
   });
 
-  const testApp = loadExpress();
+  const testApp = app;
   let registeredUserID: string;
 
   let loggedInUserToken: string;
